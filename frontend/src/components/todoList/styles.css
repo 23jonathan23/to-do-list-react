@@ -1,0 +1,8 @@
+.markedAsDone {
+  text-decoration: line-through;
+  color: #777;
+}
+
+.tableActions {
+  width: 150px;
+}

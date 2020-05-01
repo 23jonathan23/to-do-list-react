@@ -1,5 +1,7 @@
 import React from 'react'
+
 import If from '../if/If'
+
 export default props => (
   <If test={!props.hide}>
     <button className={'btn btn-' + props.styles + ' mr-2'}
