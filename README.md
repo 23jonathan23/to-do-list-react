@@ -2,7 +2,7 @@
 
 ![](/project_complete.PNG)
 
-Projeto lista de tarefas, desenvolvido em React.js && Redux no curso de react & redux da Cod3r.
+Projeto lista de tarefas, desenvolvido em React & Redux no curso de react & redux da Cod3r.
 
 ## Demais tecnologias usadas:
 - Redux
