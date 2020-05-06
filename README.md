@@ -1,6 +1,6 @@
 # To do List
 
-![](/project_complete.PNG)
+![](/project_complete_final.gif)
 
 Projeto lista de tarefas, desenvolvido em React & Redux no curso de react & redux da Cod3r.
 
