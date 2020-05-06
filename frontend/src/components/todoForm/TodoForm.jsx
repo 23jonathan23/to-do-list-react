@@ -1,43 +1,83 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import { changeDescription, search, add, clear } from '../../store/actions/todoActions'
 
 import './styles.css'
 
 import Grid from '../grid/Grid'
 import IconButton from '../iconButton/IconButton'
 
-export default props => {
+class todoForm extends Component {
 
-  const keyHandler = (e) => {
-    if(e.key === 'Enter') {
-      e.shiftKey ? props.handleSearch() : props.handleAdd()
-    } else if(e.key === 'Escape') {
-      props.handleClear()
+  constructor(props) {
+    super(props)
+    this.keyHandler = this.keyHandler.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.handleLoadList()
+  }
+
+  keyHandler(e) {
+    if (e.key === 'Enter') {
+      e.shiftKey ? this.props.handleLoadList() : this.props.handleAddTask(this.props.description)
+    } else if (e.key === 'Escape') {
+      this.props.handleClearDescription()
     }
   }
 
-  return (
-    <div role="form" className="todoForm">
+  render() {
+    return (<div role="form" className="todoForm">
       <div className="row">
         <Grid cols="12 9 10">
           <input id="description" type="text"
-            onKeyUp={keyHandler}
+            onKeyUp={this.keyHandler}
             className="form-control"
             placeholder="Adicione uma tarefa"
-            value={props.description}
-            onChange={props.handleChange} />
+            value={this.props.description}
+            onChange={e => this.props.handleChangeDescription(e.target.value)} />
         </Grid>
 
         <Grid cols="12 3 2">
           <IconButton icon="plus" styles="primary"
-            onClick={props.handleAdd} />
+            onClick={() => this.props.handleAddTask(this.props.description)} />
 
-          {!props.hideSearch && <IconButton icon="search" styles="info"
-            onClick={props.handleSearch} />}
+          <IconButton icon="search" styles="info"
+            onClick={() => this.props.handleLoadList()} />
 
-          {props.hideSearch && <IconButton icon="close" styles="secondary"
-            onClick={props.handleClear} />}
+          <IconButton icon="close" styles="secondary"
+            onClick={() => { this.props.handleClearDescription() }} />
         </Grid>
       </div>
-    </div>
-  )
+    </div>)
+  }
 }
+
+function mapStateToProps(state) {
+  const description = state.todo.description
+  return { description: description }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    handleChangeDescription(value) {
+      const action = changeDescription(value)
+      dispatch(action)
+    },
+    handleLoadList() {
+      const action = search()
+      dispatch(action)
+    },
+    handleAddTask(description) {
+      const action = add(description)
+      dispatch(action)
+    },
+    handleClearDescription() {
+      const action = clear()
+      dispatch(action)
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(todoForm)
